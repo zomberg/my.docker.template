@@ -18,14 +18,14 @@ Feel free to use it in your projects without any restrictions.
 ### Everyday usage
 - Start containers: `make up`
 - Stop containers: `make stop`
-- Stop containers: `make restart`
+- Restart containers: `make restart`
 
 ### Dump/restore datastores (Postgres as example)
 - Dump database: `make postgres-dump`
 - Go to `.my/dump/postgres` directory and rename the created file to `restore.dump`
-- Restore database: make postgres-restore` - restore database from `.my/dump/postgres/restore.dump`
+- Restore database from `.my/dump/postgres/restore.dump`: `make postgres-restore`
 
 ### Next steps
-- Look at list of supported commands: `make help`
+- Look at the list of supported commands: `make help`
 - Look inside `Makefile` for ideas.
 - Extend `Makefile` for your own needs.

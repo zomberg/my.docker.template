@@ -87,6 +87,12 @@ services:
         ports:
             - ${MEMCACHED_PORT}:11211
 
+    # Catches emails and show them in web UI
+    mailhog:
+        image: mailhog/mailhog:v1.0.1
+        ports:
+            - ${MAILHOG_PORT}:1025 # smtp server
+            - ${MAILHOG_WEB_PORT}:8025 # web ui: http://localhost:8025/
 
 # If few projects use the same external network be sure that in docker-compose.yml they don't have services with the same names.
 # In this this case requests will be balanced between BOTH projects. It takes me a lot of nerves when I first time faced with it.
