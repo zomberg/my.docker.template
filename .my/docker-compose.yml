@@ -1,0 +1,106 @@
+version: '3.8'
+
+services:
+    postgres:
+        image: library/postgres:13.2
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+            - ./dump/postgres:/dump
+        ports:
+            - ${POSTGRES_PORT}:5432
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+    mysql:
+        image: library/mysql:8.0
+        volumes:
+            - mysql_data:/var/lib/mysql
+            - ./dump/mysql:/dump
+        ports:
+            - ${MYSQL_PORT}:3306
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+    mongo:
+        image: library/mongo:4.4
+        volumes:
+            - mongo_data:/data
+            - ./dump/mongo:/dump
+        ports:
+            - ${MONGO_PORT}:27017
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+
+    redis:
+        image: library/redis:6.0
+        volumes:
+            - redis_data:/data
+        ports:
+            - ${REDIS_PORT}:6379
+
+    rabbit:
+        image: rabbitmq:3.8-management
+        ports:
+            - ${RABBIT_PORT}:5672
+            - ${RABBIT_MANAGEMENT_PORT}:15672 # http://localhost:15672/
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBIT_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBIT_PASSWORD}
+
+    elasticsearch:
+        # just copied settings for this service from the internet and don't know do we really need them or not
+        image: library/elasticsearch:7.10.1
+        environment:
+            - xpack.security.enabled=false
+            - discovery.type=single-node
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+            nofile:
+                soft: 65536
+                hard: 65536
+        cap_add:
+            - IPC_LOCK
+        volumes:
+            - elasticsearch_data:/usr/share/elasticsearch/data
+        ports:
+            - ${ELASTICSEARCH_PORT}:9200
+            - ${ELASTICSEARCH_INTERNAL_PORT}:9300
+
+    clickhouse:
+        image: yandex/clickhouse-server:20.12
+        environment:
+            CLICKHOUSE_USER: ${CLICKHOUSE_USER}
+            CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD}
+        volumes:
+            - clickhouse_data:/data
+        ports:
+            - ${CLICKHOUSE_PORT}:8123
+
+    memcached:
+        image: library/memcached:1.6
+        ports:
+            - ${MEMCACHED_PORT}:11211
+
+
+# If few projects use the same external network be sure that in docker-compose.yml they don't have services with the same names.
+# In this this case requests will be balanced between BOTH projects. It takes me a lot of nerves when I first time faced with it.
+networks:
+    # It allows to get access to containers from another project with the same network and test interaction between few projects.
+    default:
+        external:
+            name: external
+
+
+volumes:
+    postgres_data:
+    mysql_data:
+    mongo_data:
+    redis_data:
+    elasticsearch_data:
+    clickhouse_data:
