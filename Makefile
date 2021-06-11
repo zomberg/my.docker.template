@@ -90,7 +90,7 @@ postgres-dump:
 
 ## Restore PostgreSQL from restore.dump
 postgres-restore:
-	docker-compose exec postgres bash -c "pg_restore --clean --exit-on-error --if-exists --verbose --username=$(POSTGRES_USER) --dbname=$(POSTGRES_DATABASE) /dump/restore.dump"
+	docker-compose exec postgres bash -c "pg_restore --clean --exit-on-error --if-exists --no-privileges --no-owner --verbose --username=$(POSTGRES_USER) --dbname=$(POSTGRES_DATABASE) /dump/restore.dump"
 
 #### Secondary tools: to restore from other formats
 
