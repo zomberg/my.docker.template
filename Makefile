@@ -81,6 +81,25 @@ init-rabbit:
 
 
 #############################################
+# Useful commands
+#############################################
+
+## Remove compiled code
+clean:
+	rm -fR target/
+
+## Clear swap
+swap:
+	sudo swapoff -a
+	sudo swapon -a
+
+## Init and download git submodule dependencies
+git-submodules:
+	git submodule init
+	git submodule update
+
+
+#############################################
 # PostgreSQL
 #############################################
 
