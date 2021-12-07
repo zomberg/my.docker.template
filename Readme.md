@@ -1,9 +1,3 @@
-## Wrapper around docker-compose for common services
-I built it for myself and use on projects when people do not want/can use docker for local development.
-Feel free to use it in your projects without any restrictions.
-
-**Note:** it's for local development only, not for production!
-
 ### How to use
 - Copy `.my` and `Makefile` to your working project.
 - Change environment variable in `.my/.env` for your needs and local project settings.
