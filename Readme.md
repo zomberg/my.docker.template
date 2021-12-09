@@ -1,7 +1,10 @@
-### How to use
+## Infrastructure helper for local development
+
+### Prepare
 - Copy `.my` and `Makefile` to your working project.
-- Change environment variable in `.my/.env` for your needs and local project settings.
-- Add `.my` and `Makefile` to .gitignore ()
+- Change COMPOSE_PROJECT_NAME in `.my/.env`.
+- Change other parameters in `.my/.env` for your needs.
+- Add `.my` and `Makefile` to .gitignore.
 
 ### Initial one time steps
 - Build images: `make build`
