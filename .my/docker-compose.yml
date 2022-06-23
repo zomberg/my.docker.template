@@ -99,8 +99,7 @@ services:
 networks:
     # It allows to get access to containers from another project with the same network and test interaction between few projects.
     default:
-        external:
-            name: external
+        name: external
 
 
 volumes:
